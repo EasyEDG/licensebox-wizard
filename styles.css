@@ -630,7 +630,7 @@ a:-webkit-any-link {
 
   .hero-with-mascot {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(11rem, 1fr) minmax(6.5rem, 32vw);
     align-items: start;
     gap: 0.75rem;
   }
@@ -647,7 +647,8 @@ a:-webkit-any-link {
   .cc-wizard-logo {
     grid-column: 2;
     grid-row: 1;
-    width: clamp(7rem, 42vw, 11rem);
+    width: 100%;
+    max-width: 9rem;
     justify-self: end;
   }
 
@@ -659,7 +660,7 @@ a:-webkit-any-link {
   }
 
   h1 {
-    font-size: clamp(2rem, 10vw, 2.6rem);
+    font-size: clamp(1.85rem, 9vw, 2.45rem);
     line-height: 1.05;
     margin-top: 0;
   }
