@@ -172,6 +172,8 @@
       item.license,
       item.licenseUrl,
       item.permission,
+      item.categories,
+      item.rawCategories,
       item.nonFree,
       item.copyrighted,
     ]
@@ -199,7 +201,7 @@
       return {
         level: 'red',
         label: 'NC license',
-        notes: ['Non-commercial licenses are not compatible with SCP Wiki image policy.'],
+        notes: ['NC metadata detected. Non-commercial licenses are not compatible with SCP Wiki image policy.'],
       };
     }
 
@@ -208,6 +210,14 @@
         level: 'red',
         label: 'ND license',
         notes: ['No-derivatives licenses are not compatible with SCP Wiki image policy.'],
+      };
+    }
+
+    if (/cc[-\s]*by[-\s]*sa[-\s]*4\.0[,|\s]*3\.0[,|\s]*2\.5[,|\s]*2\.0[,|\s]*1\.0/i.test(text)) {
+      return {
+        level: 'yellow',
+        label: 'Multiple licenses',
+        notes: ['Multiple CC BY-SA versions detected; choose a compatible version and verify attribution.'],
       };
     }
 
