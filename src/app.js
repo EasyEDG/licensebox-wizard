@@ -40,6 +40,124 @@
     copyButton: document.querySelector('#copy-button'),
   };
 
+  //language vars//
+  const language = {
+    // .result-card :is(.result-header, .warning-list)
+
+    likelyOK: '可能没问题',
+
+    needsLicenseLabel: '授权协议缺失',
+    needsLicense: '未找到明确的机器可读的授权协议。',
+    needsLicenseOutput: '未找到明确的机器可读的授权协议。',
+
+    notAcceptableLabel: '禁止使用',
+    notAcceptable: 'Wikimedia Commons 提供的元信息表明该文件是“非自由版权”文件或是受其他限制。',
+    notAcceptableOutput: 'Wikimedia Commons 提供的元信息表明该文件是“非自由版权”文件或是受其他限制。',
+
+    ncLicensLabel: '非商业性使用(NC)',
+    ncLicense: '检测到包含“非商业性使用(NC)”的授权协议。请联系权利人取得许可。',
+    ncLicenseOutput: '该文件不得用于商业目的。',
+
+    ndLicenseLabel: '禁止演绎(ND)',
+    ndLicense: '检测到包含“禁止演绎(ND)”的授权协议。请联系权利人取得许可。',
+    ndLicenseOutput: '该文件不得二次修改。',
+
+    multipleLicensesLabel: '多重授权协议',
+    multipleLicenses: '检测到多个不同版本的“CC BY-SA”授权协议，请选择合适的授权协议并在验证其授权信息后修改备注。',
+    multipleLicensesOutput: '该文件使用了多个不同版本的“CC BY-SA”授权协议。在当前页面推定该文件所使用的授权协议为 CC BY-SA 3.0。',
+
+    publicDomain: '检测到该文件位于公共领域或使用了“CC 0 1.0”授权协议。',
+
+    CreativeCommonsBY: '检测到“CC BY”授权协议。',
+    CreativeCommonsBYSA: '检测到“CC BY-SA”授权协议。',
+
+    reviewBranchRulesLabel: '注意分部守则',
+    reviewBranchRules: '检测到 4.0 版本的 Creative Commons 授权协议。该授权协议与部分SCP 维基的图像使用原则不兼容，请谨慎使用。',
+    reviewBranchRulesOutput: '该文件使用了 4.0 版本的 Creative Commons 授权协议。该授权协议与部分SCP 维基的图像使用规定不兼容。',
+
+    reviewVersionLabel: '授权协议版本/条款不明',
+    reviewVersion: '检测到未知版本的 Creative Commons 授权协议。请再次确认该文件所使用的授权协议的版本和（或）条款并修改备注。',
+    reviewVersionOutput: '该文件使用了未知版本的 Creative Commons 授权协议。在当前页面推定该文件所使用的授权协议为 CC BY-SA 3.0。',
+
+    reviewLicenseLabel: '授权协议兼容性存疑',
+    reviewLicense: '检测到其他允许自由使用、修改、分发和商用的授权协议。但无法确定该授权协议与SCP-CN 维基的图像使用原则是否兼容，请谨慎使用。',
+    reviewLicenseOutput: '该文件使用了其他允许自由使用、修改、分发和商用的授权协议。该授权协议与部分SCP 维基的图像使用规定不兼容。',
+  
+    reviewNeededLabel: '授权协议存疑',
+    reviewNeeded: '检测到未知的授权协议。无法确定该授权协议与SCP-CN 维基的图像使用原则是否兼容，请谨慎使用。',
+    reviewNeededOutput: '该文件使用了生成器无法识别的授权协议。无法确定该授权协议与各个SCP 维基的图像使用规定是否兼容。',
+  
+    sourceLink: '查看原页面 ↗',
+
+    // Additional notes
+
+    notes: '以上内容为SCP 维基版权模块生成器从 Wikimedia Commons 中获取的元信息。',
+    notesPush: '此外，请注意：',
+    notesPushLicenseUrl: '授权协议链接：',
+    notesPushCompatibility: '注意：',
+
+    // licenseLabel
+
+    unknownLicense: '未知授权协议',
+
+    // buildEntry
+
+    buildEntryFilename: '文件名：',
+    buildEntryName: '图像名：',
+    buildEntryAuthor: '文件作者：',
+    buildEntryAuthorUNKNOWN: '未知 - 请手动复制粘贴',
+    buildEntryLicense: '授权协议：',
+    buildEntrySourceLink: '来源链接：',
+    buildEntryDerivativeOf: '衍生自：',
+    buildEntryAdditionalNotes: '备注：',
+
+    // fieldHtml
+
+    fieldHtmlProblemNote: '请在复制文本前解决以下问题：',
+
+    // renderResultCard
+
+    renderResultCardItemNotFound: '无法在 Wikimedia Commons 找到符合文件名的文件。',
+
+    renderResultCardFilename: '页面中的文件名',
+    renderResultCardName: '图像名',
+    renderResultCardAuthor: '作者',
+    renderResultCardLicense: '授权协议',
+    renderResultCardSourceLink: '来源链接',
+    renderResultCardDerivativeOf: '衍生自',
+    renderResultCardDerivativeOfPlaceholder: '仅适用于合成媒体/衍生物',
+    renderResultCardAdditionalNotes: '备注',
+    
+
+    extractedMetadata: '获取的元信息',
+
+    extractedMetadataArtist: '作者',
+    extractedMetadataAttribution: '署名信息',
+    extractedMetadataCredit: '来源',
+    extractedMetadataUsageTerms: '授权协议',
+    extractedMetadataLicenseURL: '授权协议链接',
+    extractedMetadataCategories: '分类',
+
+    renderDetectedTitlesBefore: '检测到 ',
+    renderDetectedTitlesAfter: ' 份文件。',
+
+    problemListErrorBefore: '：',
+    problemListErrorAfter: ' 项缺失',
+    problemFilename: '页面中的文件名',
+    problemAuthor: '作者',
+    problemLicense: '授权协议',
+    problemSourceLink: '来源链接',
+
+    setErrorA: '请输入至少一个 Wikimedia Commons 文件页面链接和（或）File:文件名。',
+    setErrorB: '在向 Wikimedia Commons 获取元信息时出错。',
+    setErrorC: '无法自动复制文本。请选择输出文本并手动复制。',
+
+    fetching: '查询中…',
+    fetchMetadata: '↻ 查询元信息',
+
+    copyButtonTextContentA: '复制',
+    copyButtonTextContentB: '已复制',
+  };
 
   function unique(values) {
     return Array.from(new Set(values.filter(Boolean)));
@@ -185,103 +303,104 @@
     if (!item.licenseShortName && !item.usageTerms && !item.licenseUrl) {
       return {
         level: 'red',
-        label: 'Needs license',
-        notes: ['No clear machine-readable license was found.'],
+        label: language.needsLicenseLabel,
+        notes: [language.needsLicense],
+        output: [language.needsLicenseOutput],
       };
     }
 
     if (/nonfree|non-free|fair use|all rights reserved/.test(text) || item.nonFree === 'true') {
       return {
         level: 'red',
-        label: 'Not acceptable',
-        notes: ['Commons metadata suggests this is non-free or restricted.'],
+        label: language.notAcceptableLabel,
+        notes: [language.notAcceptable],
+        output: [language.notAcceptableOutput],
       };
     }
 
     if (/(^|\W)(nc|noncommercial|non-commercial)(\W|$)/i.test(text)) {
       return {
         level: 'red',
-        label: 'NC license',
-        notes: ['NC metadata detected. Non-commercial licenses are not compatible with SCP Wiki image policy.'],
+        label: language.ncLicenseLabel,
+        notes: [language.ncLicense],
+        output: [language.ncLicenseOutput],
       };
     }
 
     if (/(^|\W)(nd|no derivatives|no-derivatives)(\W|$)/i.test(text)) {
       return {
         level: 'red',
-        label: 'ND license',
-        notes: ['No-derivatives licenses are not compatible with SCP Wiki image policy.'],
+        label: language.ndLicenseLabel,
+        notes: [language.ndLicense],
+        output: [language.ndLicenseOutput],
       };
     }
 
     if (/cc[-\s]*by[-\s]*sa[-\s]*4\.0[,|\s]*3\.0[,|\s]*2\.5[,|\s]*2\.0[,|\s]*1\.0/i.test(text)) {
       return {
         level: 'yellow',
-        label: 'Multiple licenses',
-        notes: ['Multiple CC BY-SA versions detected; choose a compatible version and verify attribution.'],
-      };
-    }
-
-    if (/cc\s*by(?:\s*-\s*sa)?\s*1\.0/i.test(text)) {
-      return {
-        level: 'red',
-        label: 'Not compatible',
-        notes: ['CC BY-SA 1.0 is not compatible because it is not forward-compatible with the SCP Wiki license.'],
+        label: language.multipleLicensesLabel,
+        notes: [language.multipleLicenses],
+        output: [language.multipleLicensesOutput],
       };
     }
 
     if (/cc0|public domain|pd-|pdm|copyrighted false/.test(text)) {
       return {
         level: 'green',
-        label: 'Likely OK',
-        notes: ['Public domain or CC0-style metadata detected.'],
+        label: language.likelyOK,
+        notes: [language.publicDomain],
       };
     }
 
-    if (/cc\s*by\s*-?\s*sa\s*(2\.0|2\.5|3\.0)/i.test(text)) {
+    if (/cc\s*by\s*-?\s*sa\s*(1\.0|2\.0|2\.5|3\.0)/i.test(text)) {
       return {
         level: 'green',
-        label: 'Likely OK',
-        notes: ['CC BY-SA 2.x/3.0 metadata detected.'],
+        label: language.likelyOK,
+        notes: [language.CreativeCommonsBYSA],
       };
     }
 
-    if (/cc\s*by\s*(2\.0|2\.5|3\.0)/i.test(text)) {
+    if (/cc\s*by\s*(1\.0|2\.0|2\.5|3\.0)/i.test(text)) {
       return {
         level: 'green',
-        label: 'Likely OK',
-        notes: ['CC BY 2.x/3.0 metadata detected.'],
+        label: language.likelyOK,
+        notes: [language.CreativeCommonsBY],
       };
     }
 
     if (/cc\s*by\s*-?\s*sa\s*4\.0|cc\s*by\s*4\.0/i.test(text)) {
       return {
         level: 'yellow',
-        label: 'Review branch rules',
-        notes: ['CC 4.0 metadata detected. This may be acceptable on SCP EN but should be checked for the target branch.'],
+        label: language.reviewBranchRulesLabel,
+        notes: [language.reviewBranchRules],
+        output: [language.reviewBranchRulesOutput],
       };
     }
 
     if (/creative commons|cc-by|cc by|cc-by-sa|cc by-sa/i.test(text)) {
       return {
         level: 'yellow',
-        label: 'Review version',
-        notes: ['A Creative Commons license was detected, but the version/terms need review.'],
+        label: language.reviewVersionLabel,
+        notes: [language.reviewVersion],
+        output: [language.reviewVersionOutput],
       };
     }
 
     if (/gfdl|gnu free documentation|free art license|fal/i.test(text)) {
       return {
         level: 'yellow',
-        label: 'Review license',
-        notes: ['A free license was detected, but it may need manual SCP licensing review.'],
+        label: language.reviewLicenseLabel,
+        notes: [language.reviewLicense],
+        output: [language.reviewLicenseOutput],
       };
     }
 
     return {
       level: 'yellow',
-      label: 'Review needed',
-      notes: ['The license was extracted, but the app cannot confidently classify SCP compatibility.'],
+      label: language.reviewNeededLabel,
+      notes: [language.reviewNeeded],
+      output: [language.reviewNeededOutput],
     };
   }
 
@@ -346,9 +465,11 @@
 
   // Default note to add to the notes section, I think this would be helpful to see which licenseboxes have utilised the wizard, so any particular issues can be reported and fixed on my end.
   function buildDefaultNotes(item) {
-    const notes = ['Metadata extracted from Wikimedia Commons using SCP Licensebox Wizard;'];
-    if (item.licenseUrl) notes.push('License URL: ' + item.licenseUrl);
-    if (item.compatibility && item.compatibility.level !== 'green') notes.push(item.compatibility.notes[0]);
+    const notes = [language.notes];
+    if (item.licenseUrl || (item.compatibility && item.compatibility.level !== 'green')) notes.push(language.notesPush);
+    if (item.licenseUrl) notes.push('\n' + '>> ' + language.notesPushLicenseUrl + item.licenseUrl);
+    if (item.compatibility && item.compatibility.level !== 'green') notes.push('\n' + '> ' + language.notesPushCompatibility + item.compatibility.output[0]);
+
     return unique(notes).join(' ');
   }
 
@@ -383,7 +504,7 @@
   }
 
   function licenseLabel(item) {
-    const base = item.licenseShortName || item.usageTerms || item.license || 'Unknown license';
+    const base = item.licenseShortName || item.usageTerms || item.license || language.unknownLicense;
     return escapeWikidot(base);
   }
 
@@ -391,24 +512,24 @@
   function buildEntry(item) {
     const includeOptionalEmptyFields = state.options.includeOptionalEmptyFields;
     const lines = [];
-    lines.push('> **Filename:** ' + escapeWikidot(item.filename));
+    lines.push('> **' + language.buildEntryFilename + '**' + escapeWikidot(item.filename));
 
     const suggestedName = escapeWikidot(item.name);
     const filenameStem = getNameWithoutExtension(item.filename);
     if (includeOptionalEmptyFields || (suggestedName && suggestedName.toLowerCase() !== filenameStem.toLowerCase())) {
-      lines.push('> **Name:** ' + suggestedName);
+      lines.push('> **' + language.buildEntryName + '**' + suggestedName);
     }
 
-    lines.push('> **Author:** ' + (escapeWikidot(item.author) || 'UNKNOWN — verify manually'));
-    lines.push('> **License:** ' + licenseLabel(item));
-    lines.push('> **Source Link:** ' + escapeWikidot(item.sourceLink));
-
-    if (includeOptionalEmptyFields || item.derivativeOf) {
-      lines.push('> **Derivative Of:** ' + escapeWikidot(item.derivativeOf));
-    }
+    lines.push('> **' + language.buildEntryAuthor + '**' + (escapeWikidot(item.author) || language.buildEntryAuthorUNKNOWN));
+    lines.push('> **' + language.buildEntryLicense + '**' + licenseLabel(item));
+    lines.push('> **' + language.buildEntrySourceLink + '**' + escapeWikidot(item.sourceLink));
 
     if (includeOptionalEmptyFields || item.notes) {
-      lines.push('> **Additional Notes:** ' + escapeWikidot(item.notes));
+      lines.push('> **' + language.buildEntryAdditionalNotes + '**' + item.notes);
+    }
+
+    if (includeOptionalEmptyFields || item.derivativeOf) {
+      lines.push('> **' + language.buildEntryDerivativeOf + '**' + escapeWikidot(item.derivativeOf));
     }
 
     return lines.join('\n');
@@ -423,11 +544,11 @@
 
     const separator = state.options.includeSeparators ? '\n-----\n' : '\n\n';
     return [
-      '[[include :scp-wiki:component:license-box]]',
+      '[[include :scp-wiki-cn:component:license-box\n|lang=CN\n]]',
       state.options.includeSeparators ? '-----' : '',
       entries.join(separator),
       state.options.includeSeparators ? '-----' : '',
-      '[[include :scp-wiki:component:license-box-end]]',
+      '[[include :scp-wiki-cn:component:license-box-end]]',
     ]
       .filter((line) => line !== '')
       .join('\n');
@@ -507,7 +628,7 @@
 
     const fieldClass = 'field' + (hasProblem ? ' has-problem' : '');
     const problemNote = hasProblem
-      ? '<small class="field-problem-note">❌ Required before copying</small>'
+      ? '<small class="field-problem-note">❌ ' + language.fieldHtmlProblemNote + '</small>'
       : '';
 
     if (safeOptions.textarea) {
@@ -529,7 +650,7 @@
     const status = item.compatibility || classifyCompatibility(item);
     if (!item.found) {
       return '<article class="result-card missing-card" data-id="' + escapeHtml(item.id) + '">' +
-        '<div class="result-header"><div><h3>' + escapeHtml(item.title) + '</h3><p>Commons could not find this file title.</p></div>' +
+        '<div class="result-header"><div><h3>' + escapeHtml(item.title) + '</h3><p>' + language.renderResultCardItemNotFound + '</p></div>' +
         '<button type="button" class="icon-button" data-remove="' + escapeHtml(item.id) + '" aria-label="Remove result">×</button></div>' +
         '</article>';
     }
@@ -546,27 +667,29 @@
       '<div class="result-header">' +
         '<div class="result-title-row">' + thumb + '<div><h3>' + escapeHtml(item.filename) + '</h3>' +
           '<div class="meta-row"><span class="status status-' + escapeHtml(status.level) + '">' + statusIcon(status.level) + ' ' + escapeHtml(status.label) + '</span>' + mime + dimensions + '</div>' +
+
+        '<a class="text-link" href="' + escapeHtml(item.sourceLink) + '" target="_blank" rel="noreferrer">' + escapeHtml(language.sourceLink) + '</a>' +
         '</div></div>' +
         '<button type="button" class="icon-button" data-remove="' + escapeHtml(item.id) + '" aria-label="Remove result">×</button>' +
       '</div>' +
       '<div class="warning-list">' + notes + '</div>' +
       '<div class="grid fields-grid">' +
-        fieldHtml(item, 'filename', 'Filename used on your SCP page', item.filename) +
-        fieldHtml(item, 'name', 'Original name', item.name) +
-        fieldHtml(item, 'author', 'Author', item.author) +
-        fieldHtml(item, 'licenseShortName', 'License', licenseLabel(item)) +
-        fieldHtml(item, 'sourceLink', 'Source link', item.sourceLink) +
-        fieldHtml(item, 'derivativeOf', 'Derivative Of', item.derivativeOf, { placeholder: 'Only needed for composites/derivatives' }) +
+        fieldHtml(item, 'filename', language.renderResultCardFilename, item.filename) +
+        fieldHtml(item, 'name', language.renderResultCardName, item.name) +
+        fieldHtml(item, 'author', language.renderResultCardAuthor, item.author) +
+        fieldHtml(item, 'licenseShortName', language.renderResultCardLicense, licenseLabel(item)) +
+        fieldHtml(item, 'sourceLink', language.renderResultCardSourceLink, item.sourceLink) +
+        fieldHtml(item, 'derivativeOf', language.renderResultCardDerivativeOf, item.derivativeOf, { placeholder: language.renderResultCardDerivativeOfPlaceholder }) +
       '</div>' +
-      fieldHtml(item, 'notes', 'Additional notes', item.notes, { textarea: true }) +
-      '<details class="raw-details"><summary>Extracted metadata</summary>' +
+      fieldHtml(item, 'notes', language.renderResultCardAdditionalNotes, item.notes, { textarea: true }) +
+      '<details class="raw-details"><summary>' + language.extractedMetadata + '</summary>' +
         '<dl>' +
-          '<dt>Artist</dt><dd>' + escapeHtml(item.artist || '—') + '</dd>' +
-          '<dt>Attribution</dt><dd>' + escapeHtml(item.attribution || '—') + '</dd>' +
-          '<dt>Credit</dt><dd>' + escapeHtml(item.credit || '—') + '</dd>' +
-          '<dt>Usage terms</dt><dd>' + escapeHtml(item.usageTerms || '—') + '</dd>' +
-          '<dt>License URL</dt><dd>' + escapeHtml(item.licenseUrl || '—') + '</dd>' +
-          '<dt>Categories</dt><dd>' + escapeHtml(item.categories || '—') + '</dd>' +
+          '<dt>' + language.extractedMetadataArtist + '</dt><dd>' + escapeHtml(item.artist || '—') + '</dd>' +
+          '<dt>' + language.extractedMetadataAttribution + '</dt><dd>' + escapeHtml(item.attribution || '—') + '</dd>' +
+          '<dt>' + language.extractedMetadataCredit + '</dt><dd>' + escapeHtml(item.credit || '—') + '</dd>' +
+          '<dt>' + language.extractedMetadataUsageTerms + '</dt><dd>' + escapeHtml(item.usageTerms || '—') + '</dd>' +
+          '<dt>' + language.extractedMetadataLicenseURL + '</dt><dd>' + escapeHtml(item.licenseUrl || '—') + '</dd>' +
+          '<dt>' + language.extractedMetadataCategories + '</dt><dd>' + escapeHtml(item.categories || '—') + '</dd>' +
         '</dl>' +
       '</details>' +
     '</article>';
@@ -580,7 +703,7 @@
 
   function renderDetectedTitles() {
     const count = state.titles.length;
-    els.detectedCount.textContent = 'Detected ' + count + ' file title' + (count === 1 ? '' : 's') + '.';
+    els.detectedCount.textContent = language.renderDetectedTitlesBefore + count + language.renderDetectedTitlesAfter;
     els.detectedList.innerHTML = state.titles.map((title) => '<span>' + escapeHtml(title) + '</span>').join('');
   }
 
@@ -606,6 +729,13 @@
   function updateCopyWarning() {
     if (!els.copyWarning || !els.output) return;
 
+    const languageMap = {
+        'Filename': language.problemFilename,
+        'Author': language.problemAuthor,
+        'License': language.problemLicense,
+        'Source link': language.problemSourceLink,
+    }
+
     const problems = getAllProblems(state.items);
 
     if (!problems.length) {
@@ -616,11 +746,14 @@
     }
 
     const problemList = problems
-      .map((problem) => '<p>❌ ' + escapeHtml(problem.image) + ': missing ' + escapeHtml(problem.field) + '</p>')
+      .map((problem) => {
+        const languageProblem = languageMap[problem.field] || problem.field;
+        return '<p>❌ ' + escapeHtml(problem.image) + escapeHtml(language.problemListErrorBefore) + escapeHtml(languageProblem) + escapeHtml(language.problemListErrorAfter) + '</p>'
+      })
       .join('');
 
     els.copyWarning.innerHTML =
-      '<p>Fix these fields before copying the licensebox:</p>' +
+      '<p>' + language.fieldHtmlProblemNote + '</p>' +
       problemList;
 
     els.copyWarning.classList.remove('hidden');
@@ -639,7 +772,9 @@
 
   function renderLoading() {
     els.fetchButton.disabled = state.loading;
-    els.fetchButton.textContent = state.loading ? 'Fetching…' : '↻ Fetch metadata';
+    els.loadExample.disabled = state.loading;
+    els.fetchButton.textContent = state.loading ? language.fetching : language.fetchMetadata;
+
     els.fetchButton.classList.toggle('loading', state.loading);
   }
 
@@ -668,7 +803,7 @@
     renderDetectedTitles();
 
     if (state.titles.length === 0) {
-      setError('Paste at least one Wikimedia Commons file URL or File: title.');
+      setError(language.setErrorA);
       return;
     }
 
@@ -680,7 +815,7 @@
       renderAll();
       document.querySelector('#results-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
     } catch (err) {
-      setError(err && err.message ? err.message : 'Something went wrong while fetching Commons metadata.');
+      setError(err && err.message ? err.message : language.setErrorB);
     } finally {
       state.loading = false;
       renderLoading();
@@ -699,10 +834,14 @@
         els.output.select();
         document.execCommand('copy');
       }
-      els.copyButton.textContent = 'Copied';
-      window.setTimeout(() => { els.copyButton.textContent = 'Copy'; }, 2200);
+      els.copyButton.textContent = language.copyButtonTextContentB;
+      els.copyButton.setAttribute("disabled", "");
+      window.setTimeout(() => {
+        els.copyButton.textContent = language.copyButtonTextContentA;
+        els.copyButton.removeAttribute("disabled");
+      }, 2200);
     } catch (_) {
-      setError('Could not copy automatically. Select the output text and copy it manually.');
+      setError(language.setErrorC);
     }
   }
 
@@ -768,7 +907,7 @@
     if (hasProblem && !note) {
       note = document.createElement('small');
       note.className = 'field-problem-note';
-      note.textContent = '❌ Required before copying';
+      note.textContent = '❌ ' + language.fieldHtmlProblemNote;
       fieldWrapper.appendChild(note);
     }
 

@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en">
+<html lang="cn">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Generate SCP Wiki licensebox markup from Wikimedia Commons file links." />
-  <title>SCP Licensebox Maker</title>
+  <meta name="description" content="从 Wikimedia Commons 的文件链接生成 SCP-CN 维基版权模块的授权信息。" />
+  <title>SCP 维基版权模块生成器</title>
   <link rel="stylesheet" href="styles.css" />
+  <script src="createResizeIframe.js"></script>
 </head>
 <body>
   <main class="container">
     <header class="hero hero-with-mascot" aria-labelledby="page-title">
       <div class="hero-copy">
-        <h1 id="page-title">SCP Licensebox Wizard</h1>
-        <p id="page-subtitle" class="subtitle">
-          Paste Wikimedia Commons links, fetch attribution metadata, review the result, then copy clean Wikidot licensebox markup.
+        <h1 id="page-title">SCP 维基版权模块生成向导</h1>
+          请在此处粘贴 Wikimedia Commons 链接，生成器将自动获取文件的归属元信息，你只需要预览结果并复制整理好的 Wikidot 版权模块的授权信息。
         </p>
       </div>
 
@@ -27,66 +27,66 @@
     <section class="notice-card" aria-labelledby="notes-heading">
       <div class="notice-mark" aria-hidden="true">!</div>
       <div>
-        <h2 id="notes-heading">Review before copying</h2>
+        <h2 id="notes-heading">请在使用前先核对</h2>
         <p>
-          This tool drafts attribution from Commons metadata. Author, source, and license fields can be incomplete, HTML-heavy, or multi-licensed. Please check yellow/red items manually.
+          本工具会根据 Wikimedia Commons 的元信息自动生成授权信息。但因作者、出处及授权协议字段可能不完整、包含大量 HTML 标签、存在多重授权等情况，所以请手动检查标为黄色和（或）红色的文件的授权信息。
         </p>
-        <a class="text-link" href="https://commons.wikimedia.org/wiki/Special:ApiSandbox#action=query&format=json&prop=imageinfo&titles=File%3AExample.jpg&iiprop=url%7Csize%7Cmime%7Cextmetadata" target="_blank" rel="noreferrer">Commons API sandbox ↗</a>
+        <a class="text-link" href="https://commons.wikimedia.org/wiki/Special:ApiSandbox#action=query&format=json&prop=imageinfo&titles=File%3AExample.jpg&iiprop=url%7Csize%7Cmime%7Cextmetadata" target="_blank" rel="noreferrer">Wikimedia Commons API沙盒 ↗</a>
       </div>
     </section>
 
     <section class="card input-panel" aria-labelledby="paste-heading">
       <div class="section-heading">
-        <p class="type">Step 1</p>
-        <h2 id="paste-heading">Paste Commons links</h2>
-        <p class="hint">Accepts Commons file pages, <code>File:</code> titles, Special:FilePath links, and raw upload.wikimedia.org URLs.</p>
+        <p class="type">第一步</p>
+        <h2 id="paste-heading">粘贴 Wikimedia Commons 链接</h2>
+        <p class="hint">可输入 Wikimedia Commons 文件页面链接、<code>File:</code>文件名、Special:文件路径 链接，以及 upload.wikimedia.org 的原始URL。</p>
       </div>
 
       <textarea id="link-input" class="main-input" rows="6" placeholder="https://commons.wikimedia.org/wiki/File:Example.jpg"></textarea>
 
       <div class="button-row">
-        <button type="button" id="fetch-button">↻ Fetch metadata</button>
-        <button type="button" id="load-example" class="secondary">Load example</button>
+        <button type="button" id="fetch-button">↻ 查询元信息</button>
+        <button type="button" id="load-example" class="secondary">加载示例</button>
       </div>
 
       <div class="detected-wrap">
-        <p class="status" id="detected-count">Detected 0 file titles.</p>
+        <p class="status" id="detected-count">检测到 0 个文件名。</p>
         <div class="tags" id="detected-list" aria-live="polite"></div>
       </div>
       <div class="error-box hidden" id="error-box" role="alert"></div>
     </section>
 
     <section class="summary-grid hidden" id="summary-grid" aria-label="Summary">
-      <div class="summary-card"><strong id="count-total">0</strong><span>files</span></div>
-      <div class="summary-card ok"><strong id="count-green">0</strong><span>likely OK</span></div>
-      <div class="summary-card warn"><strong id="count-yellow">0</strong><span>review</span></div>
-      <div class="summary-card bad"><strong id="count-red">0</strong><span>blocked / missing</span></div>
+      <div class="summary-card"><strong id="count-total">0</strong><span>文件</span></div>
+      <div class="summary-card ok"><strong id="count-green">0</strong><span>可能没问题</span></div>
+      <div class="summary-card warn"><strong id="count-yellow">0</strong><span>需检查</span></div>
+      <div class="summary-card bad"><strong id="count-red">0</strong><span>受阻/不存在</span></div>
     </section>
 
     <section class="card hidden" id="results-panel" aria-labelledby="review-heading">
       <div class="section-heading">
-        <p class="type">Step 2</p>
-        <h2 id="review-heading">Review and edit</h2>
-        <p class="hint">Change filenames to match the files uploaded to your SCP page, then verify any yellow or red items.</p>
+        <p class="type">第二步</p>
+        <h2 id="review-heading">检查与编辑</h2>
+        <p class="hint">更改以下的文件名以匹配已上传到页面上的文件的文件名，同时检查标为黄色和（或）红色的文件的授权信息。</p>
       </div>
       <div class="results-stack" id="results-stack"></div>
     </section>
 
     <section class="card output-panel hidden" id="output-panel" aria-labelledby="markup-heading">
-      <p class="type">Step 3</p>
+      <p class="type">第三步</p>
       <div class="result-header output-header">
         <div class="result-main">
-          <h2 id="markup-heading">Copy Wikidot markup</h2>
-          <p class="hint">Paste this below your article content, then add the <code>_licensebox</code> tag.</p>
+          <h2 id="markup-heading">复制授权信息</h2>
+          <p class="hint">请粘贴以下内容至你创作的作品所在的页面的最下方。</p>
         </div>
         <div class="button-group">
-          <button type="button" id="copy-button">Copy</button>
+          <button type="button" id="copy-button">复制</button>
         </div>
       </div>
 
       <div class="toggle-row options-row">
-        <label><input type="checkbox" id="include-separators" /> Include ----- separator lines</label>
-        <label><input type="checkbox" id="include-empty-fields" /> Include empty optional fields</label>
+        <label><input type="checkbox" id="include-separators" /> 添加 ----- 水平分割线</label>
+        <label><input type="checkbox" id="include-empty-fields" /> 添加未填写的授权信息</label>
       </div>
 
       <div id="copy-warning" class="copy-warning hidden" role="alert"></div>
@@ -96,5 +96,6 @@
   </main>
 
   <script src="app.js"></script>
+  <div id="iframeset"></div>
 </body>
 </html>
