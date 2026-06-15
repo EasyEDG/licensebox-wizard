@@ -1,3 +1,6 @@
+@import url("https://fontsapi.zeoseven.com/69/main/result.css");
+@import url("https://fontsapi.zeoseven.com/285/main/result.css");
+
 :root {
   --page: #fefefe;
   --page-soft: #f7f4f4;
@@ -30,7 +33,7 @@ html {
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: Arial,"Noto Sans CJK" , sans-serif;
   background:
     radial-gradient(circle at top left, rgba(153, 102, 102, 0.11), transparent 20rem),
     linear-gradient(180deg, var(--page), var(--page-soft));
@@ -266,7 +269,7 @@ textarea {
 
 .main-input,
 .output {
-  font-family: Consolas, Monaco, 'Courier New', monospace;
+  font-family: Consolas, "Noto Serif CJK", Monaco, 'Courier New', monospace;
 }
 
 .main-input {
@@ -367,6 +370,11 @@ code {
   align-items: center;
   gap: 0.35rem;
   overflow-wrap: anywhere;
+}
+
+.meta-row .status,
+.status:is(.status-green, .status-yellow, .status-red) {
+  margin: 0;
 }
 
 .tags span:hover,
@@ -647,12 +655,17 @@ a:-webkit-any-link {
   text-underline-offset: 0.12em;
 }
 
+.result-title-row .text-link {
+  display: inline-block;
+  margin: 0.6rem 0 0 0;
+}
+
 .loading {
   opacity: 0.78;
 }
 
 ::marker {
-  content: "‡";
+  content: "‡ ";
 }
 
 @media (max-width: 760px) {
