@@ -1,34 +1,25 @@
 // C-take's resizing iframe method //
 document.addEventListener("DOMContentLoaded",function(){
-    var mySite = document.referrer.replace(/(https?:\/\/[^/]*)\/?.*/, '$1/');
-
-    var iframeSet = document.getElementById('iframeset');
-    var oldHeight = 0;
-
-    var url = location.href;
-    url = url.replace(/^.*\//,'/');
+    const main = document.querySelector("main.container");
+    let oldHeight = 0;
 
     createResizeIframe();
 
     function createResizeIframe(){
+        const contentHeight = Math.max(
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight,
+            document.body.offsetHeight,
+            document.documentElement.offsetHeight
+        );
 
-        var Height = getMyHeight();
-        var iframe = document.createElement("iframe");
-        var CacheBreak = String(Math.floor(Math.random() * 10000));
-
-        if(Height != oldHeight){
-            iframeSet.innerHTML = '';
-            iframe.src = mySite + "common--javascript/resize-iframe.html?" + CacheBreak + "#" + Height + url;
-            iframe.style.display = "none";
-
-            iframeSet.appendChild(iframe);
-            oldHeight = Height;
+        if(contentHeight != oldHeight){
+            oldHeight = contentHeight;
         }
+        window.parent.postMessage({
+            fileOrigin: 'createResizeIframe.js',
+            height: oldHeight
+        }, '*');
         setTimeout(createResizeIframe,50);
    }
-
-    function getMyHeight() {
-
-        return iframeSet.getBoundingClientRect().top;
-    };
 });
