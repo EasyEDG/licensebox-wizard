@@ -14,6 +14,7 @@
     options: {
       includeSeparators: false,
       includeOptionalEmptyFields: false,
+      includeLinkTexts: false,
     },
   };
 
@@ -37,6 +38,7 @@
     copyWarning: document.querySelector('#copy-warning'),
     includeSeparators: document.querySelector('#include-separators'),
     includeEmptyFields: document.querySelector('#include-empty-fields'),
+    includeLinkTexts: document.querySelector('#include-link-texts'),
     copyButton: document.querySelector('#copy-button'),
   };
 
@@ -520,9 +522,19 @@
       lines.push('> **' + language.buildEntryName + '**' + suggestedName);
     }
 
+    function buildEntrySourceLink(rawlink) {
+      const addBefore = state.options.includeLinkTexts ? '[' : '';
+      const addAfter = state.options.includeLinkTexts ? ' Wikimedia Commons]' : '';
+      return addBefore + rawlink + addAfter;
+    }
+
+    const addedSourceLink = buildEntrySourceLink(escapeWikidot(item.sourceLink));
+
     lines.push('> **' + language.buildEntryAuthor + '**' + (escapeWikidot(item.author) || language.buildEntryAuthorUNKNOWN));
     lines.push('> **' + language.buildEntryLicense + '**' + licenseLabel(item));
-    lines.push('> **' + language.buildEntrySourceLink + '**' + escapeWikidot(item.sourceLink));
+    lines.push('> **' + language.buildEntrySourceLink + '**' + addedSourceLink);
+
+    
 
     if (includeOptionalEmptyFields || item.notes) {
       lines.push('> **' + language.buildEntryAdditionalNotes + '**' + item.notes);
@@ -849,6 +861,7 @@
   els.input.value = EXAMPLE_INPUT;
   els.includeSeparators.checked = state.options.includeSeparators;
   els.includeEmptyFields.checked = state.options.includeOptionalEmptyFields;
+  els.includeLinkTexts.checked = state.options.includeLinkTexts;
 
   els.input.addEventListener('input', () => {
     updateTitles();
@@ -872,6 +885,10 @@
   els.includeEmptyFields.addEventListener('change', () => {
     state.options.includeOptionalEmptyFields = els.includeEmptyFields.checked;
     renderOutput();
+  });
+
+  els.includeLinkTexts.addEventListener('change', () => {
+    state.options.includeLinkTexts = els.includeLinkTexts.checked;
   });
 
   els.resultsStack.addEventListener('click', (event) => {
