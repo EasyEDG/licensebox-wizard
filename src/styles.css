@@ -1,12 +1,12 @@
 @font-face {
   font-family: "Noto Sans CJK";
-  src: url("https://easyedg.github.io/word/basalt/fonts/NotoSerifSC-Bold.woff2") format("woff2");
+  src: url("https://easyedg.github.io/word/basalt/fonts/NotoSansSC-Bold.woff2") format("woff2");
   font-weight: bold;
 }
 
 @font-face {
   font-family: "Noto Sans CJK";
-  src: url("https://easyedg.github.io/word/basalt/fonts/NotoSerifSC-Regular.woff2") format("woff2");
+  src: url("https://easyedg.github.io/word/basalt/fonts/NotoSansSC-Regular.woff2") format("woff2");
   font-weight: normal;
 }
 
