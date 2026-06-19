@@ -1,5 +1,26 @@
-@import url("https://fontsapi.zeoseven.com/69/main/result.css");
-@import url("https://fontsapi.zeoseven.com/285/main/result.css");
+@font-face {
+  font-family: "Noto Sans CJK";
+  src: url("https://easyedg.github.io/word/basalt/fonts/NotoSerifSC-Bold.woff2") format("woff2");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Noto Sans CJK";
+  src: url("https://easyedg.github.io/word/basalt/fonts/NotoSerifSC-Regular.woff2") format("woff2");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Noto Serif CJK";
+  src: url("https://easyedg.github.io/word/basalt/fonts/NotoSerifSC-Bold.woff2") format("woff2");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Noto Serif CJK";
+  src: url("https://easyedg.github.io/word/basalt/fonts/NotoSerifSC-Regular.woff2") format("woff2");
+  font-weight: normal;
+}
 
 :root {
   --page: #fefefe;
