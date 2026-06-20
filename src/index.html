@@ -5,11 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="从 Wikimedia Commons 的文件链接生成 SCP-CN 维基版权模块的授权信息。" />
   <title>SCP 维基版权模块生成器</title>
+  <link rel="preload" href="styles.css" as="style" />
+  <link rel="preload" href="betterFootnotes.css" as="style" />
+  <link rel="preload" href="app.js" as="script" blocking="render" />
+  <link rel="preload" href="createResizeIframe.js" as="script" />
+  <link rel="preload" href="https://easyedg.github.io/word/basalt/fonts/NotoSansSC-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <link rel="preload" href="https://easyedg.github.io/word/basalt/fonts/NotoSansSC-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <link rel="preload" href="https://easyedg.github.io/word/basalt/fonts/NotoSerifSC-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <link rel="preload" href="https://easyedg.github.io/word/basalt/fonts/NotoSerifSC-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <!-- EstrellaYoshte's BetterFootnotes -->
   <link rel="stylesheet" href="styles.css" />
-  <script src="createResizeIframe.js"></script>
+  <!-- C-take's resizing iframe method -->
+  <link rel="stylesheet" href="betterFootnotes.css" />
 </head>
 <body>
   <main class="container">
+    <noscript class="error-box">✕ 警告：本工具需要通过脚本运行！</noscript>
     <header class="hero hero-with-mascot" aria-labelledby="page-title">
       <div class="hero-copy">
         <h1 id="page-title">SCP 维基版权模块生成向导</h1>
@@ -19,7 +30,7 @@
 
       <img
         src="cc-wizard.png"
-        alt="Creative Commons wizard mascot"
+        alt="知识共享向导吉祥物"
         class="cc-wizard-logo"
       />
     </header>
@@ -29,7 +40,7 @@
       <div>
         <h2 id="notes-heading">请在使用前先核对</h2>
         <p>
-          本工具会根据 Wikimedia Commons 的元信息自动生成授权信息。但因作者、出处及授权协议字段可能不完整、包含大量 HTML 标签、存在多重授权等情况，所以请手动检查标为黄色和（或）红色的文件的授权信息。
+          本工具会根据 Wikimedia Commons 的元信息自动生成授权信息。但因作者、出处及授权协议等字段可能不完整、包含大量 HTML 标签、文件使用了<span class="fna">多重授权协议</span><span class="fnnum">.</span><span class="fncon">见<a class="text-link" href="https://commons.wikimedia.org/wiki/Commons:Multi-licensing/zh">此页面</a>。<br /><br /><strong>简而言之：</strong>多重授权协议是指以多种授权协议授权的内容。这样做可以让内容使用者有更多自由，因为他们可以选择最适合自己需求的授权协议。</span><span class="no-select"> </span>等情况，所以请手动检查标为黄色和（或）红色的文件的授权信息。
         </p>
         <a class="text-link" href="https://commons.wikimedia.org/wiki/Special:ApiSandbox#action=query&format=json&prop=imageinfo&titles=File%3AExample.jpg&iiprop=url%7Csize%7Cmime%7Cextmetadata" target="_blank" rel="noreferrer">Wikimedia Commons API沙盒 ↗</a>
       </div>
@@ -39,7 +50,7 @@
       <div class="section-heading">
         <p class="type">第一步</p>
         <h2 id="paste-heading">粘贴 Wikimedia Commons 链接</h2>
-        <p class="hint">可输入 Wikimedia Commons 文件页面链接、<code>File:</code>文件名、Special:文件路径 链接，以及 upload.wikimedia.org 的原始URL。</p>
+        <p class="hint">可输入 Wikimedia Commons 文件页面链接、<code>File:</code>文件名、Special:文件路径 和 upload.wikimedia.org 的原始链接。</p>
       </div>
 
       <textarea id="link-input" class="main-input" rows="6" placeholder="https://commons.wikimedia.org/wiki/File:Example.jpg"></textarea>
@@ -60,7 +71,7 @@
       <div class="summary-card"><strong id="count-total">0</strong><span>文件</span></div>
       <div class="summary-card ok"><strong id="count-green">0</strong><span>可能没问题</span></div>
       <div class="summary-card warn"><strong id="count-yellow">0</strong><span>需检查</span></div>
-      <div class="summary-card bad"><strong id="count-red">0</strong><span>受阻/不存在</span></div>
+      <div class="summary-card bad"><strong id="count-red">0</strong><span>查询受阻/文件不存在</span></div>
     </section>
 
     <section class="card hidden" id="results-panel" aria-labelledby="review-heading">
@@ -84,10 +95,19 @@
         </div>
       </div>
 
-      <div class="toggle-row options-row">
-        <label><input type="checkbox" id="include-separators" /> 添加 ----- 水平分割线</label>
-        <label><input type="checkbox" id="include-empty-fields" /> 添加未填写的授权信息</label>
-        <label><input type="checkbox" id="include-link-texts" /> 为“来源链接”添加链接文本</label>
+      <div class="options-row">
+        <div class="toggle-row">
+          <label><input type="checkbox" id="include-separators" /> 添加 ----- 水平分割线</label>
+          <label><input type="checkbox" id="include-empty-fields" /> 添加未填写的授权信息</label>
+          <label><input type="checkbox" id="license-full-text" /> 填写完整的授权协议名称</label>
+        </div>
+        <div calss="toggle-row">
+          <label><input type="checkbox" id="include-link-texts" /> 为“来源链接”添加链接文本</label>
+          <label><input type="checkbox" id="license-box-theme" /> 使用用于版式页和组件页的版权模块</label>
+        </div>
+        <div class="toggle-row">
+          <label><span>作者：</span><input type="text" id="input-author" /></label>
+        </div>
       </div>
 
       <div id="copy-warning" class="copy-warning hidden" role="alert"></div>
@@ -95,7 +115,8 @@
       <textarea class="output" id="output" readonly rows="14"></textarea>
     </section>
   </main>
-
-  <script src="app.js"></script>
+  <script src="app.js" defer></script>
+  <!-- C-take's resizing iframe method -->
+  <script src="createResizeIframe.js" defer></script>
 </body>
 </html>

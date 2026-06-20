@@ -284,6 +284,13 @@ select {
   max-width: 100%;
 }
 
+input#input-author {
+  padding: 0;
+  font-size: 1rem;
+  border-radius: 0.2rem;
+  line-height: normal;
+}
+
 textarea {
   resize: vertical;
 }
@@ -322,6 +329,16 @@ code {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem;
+}
+
+.options-row:has(> .toggle-row) {
+  flex-direction: column;
+  gap: 0rem;
+  margin-bottom: 1rem;
+}
+
+.options-row .toggle-row {
+  margin-bottom: 0rem;
 }
 
 .button-row {
@@ -429,6 +446,13 @@ code {
   color: #900;
   background: #fff;
   overflow-wrap: anywhere;
+}
+
+noscript.error-box {
+  position: fixed;
+  top: 10%;
+  text-align: center;
+  z-index: 9999;
 }
 
 .summary-grid {
@@ -671,9 +695,16 @@ dd {
 .text-link,
 a:-webkit-any-link {
   color: var(--red);
+  border-radius: 0.2rem;
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 0.12em;
+}
+
+.text-link:focus,
+a:-webkit-any-link:focus {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
 }
 
 .result-title-row .text-link {
@@ -687,6 +718,14 @@ a:-webkit-any-link {
 
 ::marker {
   content: "‡ ";
+}
+
+.no-select,
+.notice-mark,
+.small-icon,
+.icon-button {
+  user-select: none;
+  -moz-user-select: none;
 }
 
 @media (max-width: 760px) {

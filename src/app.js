@@ -14,7 +14,11 @@
     options: {
       includeSeparators: false,
       includeOptionalEmptyFields: false,
-      includeLinkTexts: false,
+      licenseFullText: false,
+      includeLinkTexts: true,
+      inputAuthor: '',
+      inputAuthorValue: false,
+      licenseBoxTheme: false,
     },
   };
 
@@ -38,7 +42,10 @@
     copyWarning: document.querySelector('#copy-warning'),
     includeSeparators: document.querySelector('#include-separators'),
     includeEmptyFields: document.querySelector('#include-empty-fields'),
+    licenseFullText: document.querySelector('#license-full-text'),
     includeLinkTexts: document.querySelector('#include-link-texts'),
+    licenseBoxTheme: document.querySelector('#license-box-theme'),
+    inputAuthor: document.querySelector('#input-author'),
     copyButton: document.querySelector('#copy-button'),
   };
 
@@ -90,6 +97,7 @@
     reviewNeededOutput: '该文件使用了生成器无法识别的授权协议。无法确定该授权协议与各个SCP 维基的图像使用规定是否兼容。',
   
     sourceLink: '查看原页面 ↗',
+    authorUNKNOWN: '佚名',
 
     // Additional notes
 
@@ -106,7 +114,13 @@
 
     buildEntryFilename: '文件名：',
     buildEntryName: '图像名：',
-    buildEntryAuthor: '文件作者：',
+    buildEntryVideoName: '视频名：',
+    buildEntryAudioName: '音频名：',
+    buildEntryMediaName: '媒体名：',
+    buildEntryAuthor: '图像作者：',
+    buildEntryVideoAuthor: '视频作者：',
+    buildEntryAudioAuthor: '音频作者：',
+    buildEntryMediaAuthor: '媒体作者：',
     buildEntryAuthorUNKNOWN: '未知 - 请手动复制粘贴',
     buildEntryLicense: '授权协议：',
     buildEntrySourceLink: '来源链接：',
@@ -123,6 +137,9 @@
 
     renderResultCardFilename: '页面中的文件名',
     renderResultCardName: '图像名',
+    renderResultCardVideoName: '视频名',
+    renderResultCardAudioName: '音频名',
+    renderResultCardMediaName: '媒体名',
     renderResultCardAuthor: '作者',
     renderResultCardLicense: '授权协议',
     renderResultCardSourceLink: '来源链接',
@@ -460,6 +477,10 @@
       rawLicense: rawMetaValue(ext, 'LicenseShortName') || rawMetaValue(ext, 'UsageTerms') || rawMetaValue(ext, 'License'),
     };
 
+    if (categories && categories.includes('Files with no machine-readable author')) {
+      item.author = language.authorUNKNOWN;
+    }
+
     item.compatibility = classifyCompatibility(item);
     item.notes = buildDefaultNotes(item);
     return item;
@@ -470,7 +491,7 @@
     const notes = [language.notes];
     if (item.licenseUrl || (item.compatibility && item.compatibility.level !== 'green')) notes.push(language.notesPush);
     if (item.licenseUrl) notes.push('\n' + '>> ' + language.notesPushLicenseUrl + item.licenseUrl);
-    if (item.compatibility && item.compatibility.level !== 'green') notes.push('\n' + '> ' + language.notesPushCompatibility + item.compatibility.output[0]);
+    if (item.compatibility && item.compatibility.level !== 'green') notes.push('\n' + '>> ' + language.notesPushCompatibility + item.compatibility.output[0]);
 
     return unique(notes).join(' ');
   }
@@ -506,7 +527,9 @@
   }
 
   function licenseLabel(item) {
-    const base = item.licenseShortName || item.usageTerms || item.license || language.unknownLicense;
+    const baseInShortName = item.licenseShortName || item.usageTerms || item.license || language.unknownLicense;
+    const baseInFullText = item.usageTerms || item.license || language.unknownLicense;
+    const base = state.options.licenseFullText ? baseInFullText : baseInShortName;
     return escapeWikidot(base);
   }
 
@@ -518,19 +541,22 @@
 
     const suggestedName = escapeWikidot(item.name);
     const filenameStem = getNameWithoutExtension(item.filename);
+    const nameLabel = item.mime && item.mime.startsWith('video/') ? language.buildEntryVideoName : item.mime && item.mime.startsWith('audio/') ? language.buildEntryAudioName : item.mime && item.mime.startsWith('application/ogg') ? language.buildEntryMediaName : language.buildEntryName;
+    const authorLabel = item.mime && item.mime.startsWith('video/') ? language.buildEntryVideoAuthor : item.mime && item.mime.startsWith('audio/') ? language.buildEntryAudioAuthor : item.mime && item.mime.startsWith('application/ogg') ? language.buildEntryMediaAuthor : language.buildEntryAuthor;
     if (includeOptionalEmptyFields || (suggestedName && suggestedName.toLowerCase() !== filenameStem.toLowerCase())) {
-      lines.push('> **' + language.buildEntryName + '**' + suggestedName);
+      lines.push('> **' + nameLabel + '**' + suggestedName);
     }
 
     function buildEntrySourceLink(rawlink) {
-      const addBefore = state.options.includeLinkTexts ? '[' : '';
+      const addBefore = state.options.includeLinkTexts ? '[*' : '';
       const addAfter = state.options.includeLinkTexts ? ' Wikimedia Commons]' : '';
+
       return addBefore + rawlink + addAfter;
     }
 
     const addedSourceLink = buildEntrySourceLink(escapeWikidot(item.sourceLink));
 
-    lines.push('> **' + language.buildEntryAuthor + '**' + (escapeWikidot(item.author) || language.buildEntryAuthorUNKNOWN));
+    lines.push('> **' + authorLabel + '**' + (escapeWikidot(item.author) || language.buildEntryAuthorUNKNOWN));
     lines.push('> **' + language.buildEntryLicense + '**' + licenseLabel(item));
     lines.push('> **' + language.buildEntrySourceLink + '**' + addedSourceLink);
 
@@ -556,7 +582,10 @@
 
     const separator = state.options.includeSeparators ? '\n-----\n' : '\n\n';
     return [
-      '[[include :scp-wiki-cn:component:license-box\n|lang=CN\n]]',
+      state.options.licenseBoxTheme ? '[[include :scp-wiki-cn:component:license-box-theme' : '[[include :scp-wiki-cn:component:license-box',
+      '|lang=CN',
+      state.options.inputAuthorValue ? '|author=' + state.options.inputAuthor : '',
+      ']]',
       state.options.includeSeparators ? '-----' : '',
       entries.join(separator),
       state.options.includeSeparators ? '-----' : '',
@@ -668,12 +697,13 @@
     }
 
     const thumb = item.thumbUrl
-      ? '<img class="thumb" src="' + escapeHtml(item.thumbUrl) + '" alt="" loading="lazy" />'
+      ? '<img class="thumb" src="' + escapeHtml(item.thumbUrl) + '" alt="' + item.filename + '" loading="lazy" />'
       : '<div class="thumb thumb-empty"></div>';
 
     const notes = (status.notes || []).map((note) => '<p><span class="small-icon">ⓘ</span>' + escapeHtml(note) + '</p>').join('');
     const dimensions = item.width && item.height ? '<span class="mini-pill">' + escapeHtml(item.width + ' × ' + item.height) + '</span>' : '';
     const mime = item.mime ? '<span class="mini-pill">' + escapeHtml(item.mime) + '</span>' : '';
+    const nameLabel = item.mime && item.mime.startsWith('video/') ? language.renderResultCardVideoName : item.mime && item.mime.startsWith('audio/') ? language.renderResultCardAudioName : item.mime && item.mime.startsWith('application/ogg') ? language.renderResultCardMediaName : language.renderResultCardName;
 
     return '<article class="result-card" data-id="' + escapeHtml(item.id) + '">' +
       '<div class="result-header">' +
@@ -687,7 +717,7 @@
       '<div class="warning-list">' + notes + '</div>' +
       '<div class="grid fields-grid">' +
         fieldHtml(item, 'filename', language.renderResultCardFilename, item.filename) +
-        fieldHtml(item, 'name', language.renderResultCardName, item.name) +
+        fieldHtml(item, 'name', nameLabel, item.name) +
         fieldHtml(item, 'author', language.renderResultCardAuthor, item.author) +
         fieldHtml(item, 'licenseShortName', language.renderResultCardLicense, licenseLabel(item)) +
         fieldHtml(item, 'sourceLink', language.renderResultCardSourceLink, item.sourceLink) +
@@ -847,10 +877,10 @@
         document.execCommand('copy');
       }
       els.copyButton.textContent = language.copyButtonTextContentB;
-      els.copyButton.setAttribute("disabled", "");
+      els.copyButton.setAttribute('disabled', '');
       window.setTimeout(() => {
         els.copyButton.textContent = language.copyButtonTextContentA;
-        els.copyButton.removeAttribute("disabled");
+        els.copyButton.removeAttribute('disabled');
       }, 2200);
     } catch (_) {
       setError(language.setErrorC);
@@ -861,7 +891,10 @@
   els.input.value = EXAMPLE_INPUT;
   els.includeSeparators.checked = state.options.includeSeparators;
   els.includeEmptyFields.checked = state.options.includeOptionalEmptyFields;
+  els.licenseFullText.checked = state.options.licenseFullText;
   els.includeLinkTexts.checked = state.options.includeLinkTexts;
+  els.licenseBoxTheme.checked = state.options.licenseBoxTheme;
+  els.inputAuthor.value = state.options.inputAuthor;
 
   els.input.addEventListener('input', () => {
     updateTitles();
@@ -887,8 +920,33 @@
     renderOutput();
   });
 
+  els.licenseFullText.addEventListener('change', () => {
+    state.options.licenseFullText = els.licenseFullText.checked;
+    renderResults();
+    renderOutput();
+  });
+
   els.includeLinkTexts.addEventListener('change', () => {
     state.options.includeLinkTexts = els.includeLinkTexts.checked;
+    state.items.forEach(function (item) {
+      item.notes = buildDefaultNotes(item);
+    });
+    renderOutput();
+  });
+
+  els.licenseBoxTheme.addEventListener('change', () => {
+    state.options.licenseBoxTheme = els.licenseBoxTheme.checked;
+    renderOutput();
+  });
+
+  els.inputAuthor.addEventListener('keyup', () => {
+    state.options.inputAuthor = els.inputAuthor.value;
+    if (state.options.inputAuthor === '') {
+      state.options.inputAuthorValue = false;
+    } else {
+      state.options.inputAuthorValue = true;
+    }
+    renderOutput();
   });
 
   els.resultsStack.addEventListener('click', (event) => {
