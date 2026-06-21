@@ -38,12 +38,17 @@ body {
     color: var(--fnColor);
 }
 .fnnum:hover,
-.fna:is(:hover, :focus) + .fnnum {
+.fna:is(:hover, :focus) + .fnnum,
+.fnnum:has(+ .fncon:is(:hover, :focus-within)) {
     text-decoration: none;
     cursor: pointer;
     background-color: var(--fnColor);
 }
-.fnnum:hover::after, .fna:is(:hover, :focus) + .fnnum::after { color: var(--fnPage); }
+.fnnum:hover::after,
+.fna:is(:hover, :focus) + .fnnum::after,
+.fnnum:has(+ .fncon:is(:hover, :focus-within))::after {
+    color: var(--fnPage);
+}
  
 /*--- Footnote Content Wrapper --*/
 .fncon {
@@ -67,7 +72,7 @@ body {
         visibility 0.01s linear var(--fnInteract);
 }
 .fnnum:hover + .fncon,
-.fncon:hover,
+.fncon:is(:hover, :focus-within),
 .fna:is(:hover, :focus) + .fnnum + .fncon {
     opacity: 1;
     right: var(--posX);
@@ -104,7 +109,7 @@ body {
             visibility 0.01s linear var(--fnInteract);
     }
     .fnnum:hover + .fncon,
-    .fncon:hover,
+    .fncon:is(:hover, :focus-within),
     .fna:is(:hover, :focus) + .fnnum + .fncon {
         left: 11%;
         transition:
@@ -113,8 +118,9 @@ body {
     }
 }
 
+.fna:is(:hover, :focus),
 .fna:has(+ .fnnum:hover),
-.fna:is(:hover, :focus) {
+.fna:has(+ .fnnum + .fncon:is(:hover, :focus-within)) {
     cursor: pointer;
     text-decoration: underline dashed var(--fnColor);
     text-underline-offset: 0.2rem;
