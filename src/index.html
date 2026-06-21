@@ -13,7 +13,7 @@
   <link rel="preload" href="https://easyedg.github.io/word/basalt/fonts/NotoSansSC-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
   <link rel="preload" href="https://easyedg.github.io/word/basalt/fonts/NotoSerifSC-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
   <link rel="preload" href="https://easyedg.github.io/word/basalt/fonts/NotoSerifSC-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
-  
+
   <link rel="stylesheet" href="styles.css" />
   <!-- EstrellaYoshte's BetterFootnotes -->
   <link rel="stylesheet" href="betterFootnotes.css" />
@@ -118,5 +118,48 @@
   <script src="app.js" defer></script>
   <!-- C-take's resizing iframe method -->
   <script src="createResizeIframe.js" defer></script>
+  <script defer>
+    const fE = document.querySelectorAll('.fncon');
+    const iDE = document.documentElement;
+    const eO = [];
+    fE.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      eO.push({
+        el: el,
+        eOY: rect.top,
+        eOX: rect.left,
+        fO: 20.8, // 1.3rem
+      });
+    });
+
+    window.addEventListener('message', function(e) {
+      const d = e.data;
+      if (!(d && d.fileOrigin === 'resizeElement.js')) return;
+      uFE(d);
+    });
+
+    function uFE(r) {
+      const iT = r.offsetY;
+      const iL = r.offsetX;
+      const vH = window.innerHeight;
+
+      eO.forEach(i => {
+        const el = i.el;
+        const oT = i.eOY;
+        const oL = i.eOX;
+        const fO = i.fO;
+        const cPIV = iT + oT;
+        const tPIV = fO;
+        const dY = tPIV - cPIV;
+        const iV = (tPIV >= 0 && tPIV <= vH);
+        
+        if (!iV) {
+          el.style.transform = 'none';
+        } else {
+          el.style.transform = `translateY(${dY}px)`;
+        }
+      });
+    };
+  </script>
 </body>
 </html>

@@ -93,8 +93,8 @@ body {
 /*--- Mobile Query --*/
 @media only screen and (max-width: 1600px) {
     .fncon {
-        position: fixed;
-        bottom: 1.3rem;
+        position: absolute;
+        top: 1.3rem;
         left: calc(11% - 50px);
         width: 70%;
         border-radius: 0.8rem;
