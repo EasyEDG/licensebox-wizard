@@ -102,7 +102,7 @@
     // Additional notes
 
     notes: '以上内容为SCP 维基版权模块生成器从 Wikimedia Commons 中获取的元信息。',
-    notesPush: '此外，请注意：',
+    notesPush: /* '此外，请注意：' */'',
     notesPushLicenseUrl: '授权协议链接：',
     notesPushCompatibility: '注意：',
 
@@ -121,7 +121,7 @@
     buildEntryVideoAuthor: '视频作者：',
     buildEntryAudioAuthor: '音频作者：',
     buildEntryMediaAuthor: '媒体作者：',
-    buildEntryAuthorUNKNOWN: '未知 - 请手动复制粘贴',
+    buildEntryAuthorUNKNOWN: '未知 - 请在文件原页面查找并手动复制粘贴',
     buildEntryLicense: '授权协议：',
     buildEntrySourceLink: '来源链接：',
     buildEntryDerivativeOf: '衍生自：',
