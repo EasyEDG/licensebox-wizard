@@ -3,7 +3,7 @@
 
   //api links
   const COMMONS_API = 'https://commons.wikimedia.org/w/api.php';
-  const EXAMPLE_INPUT = 'https://commons.wikimedia.org/wiki/File:Kievitsbloem.jpg\nFile:Example.jpg';
+  const EXAMPLE_INPUT = 'https://commons.wikimedia.org/wiki/File:Kievitsbloem.jpg\nFile:Example_zh.svg';
 
   const state = {
     input: EXAMPLE_INPUT,
