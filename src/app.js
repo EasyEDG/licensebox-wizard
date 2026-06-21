@@ -490,8 +490,8 @@
   function buildDefaultNotes(item) {
     const notes = [language.notes];
     if (item.licenseUrl || (item.compatibility && item.compatibility.level !== 'green')) notes.push(language.notesPush);
-    if (item.licenseUrl) notes.push('\n' + '>> ' + language.notesPushLicenseUrl + item.licenseUrl);
-    if (item.compatibility && item.compatibility.level !== 'green') notes.push('\n' + '>> ' + language.notesPushCompatibility + item.compatibility.output[0]);
+    if (item.licenseUrl) notes.push('\n' + '> ' + language.notesPushLicenseUrl + item.licenseUrl);
+    if (item.compatibility && item.compatibility.level !== 'green') notes.push('\n' + '> ' + language.notesPushCompatibility + item.compatibility.output[0]);
 
     return unique(notes).join(' ');
   }
