@@ -50,7 +50,7 @@
       <div class="section-heading">
         <p class="type">第一步</p>
         <h2 id="paste-heading">粘贴 Wikimedia Commons 链接</h2>
-        <p class="hint">可以输入 Wikimedia Commons 的文件页面链接、<code>File:</code>文件名、Special:FilePath/文件名，或 upload.wikimedia.org 的原始链接。</p>
+        <p class="hint">可以输入 Wikimedia Commons 的文件页面链接、<code>File:</code>文件名、<span class="fna">Special:FilePath/文件名</span><span class="fnnum">.</span><span class="fncon"><strong>译注：</strong>原作者在生成器处理<tt>Special:FilePath/文件名</tt>部分的逻辑存在问题，在实际情况下，生成器无法检索<tt>Special:FilePath/文件名</tt>文件。在该问题被得到妥善解决前，请勿将<tt>Special:FilePath/文件名</tt>用于文件元信息检索。</span>，或 upload.wikimedia.org 的原始链接。</p>
       </div>
 
       <textarea id="link-input" class="main-input" rows="6" placeholder="https://commons.wikimedia.org/wiki/File:Example.jpg"></textarea>
